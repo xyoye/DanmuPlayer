@@ -1,5 +1,5 @@
 # DanmuPlayer
-弹幕播放器，基于烈焰弹幕使与VitamioLibrary5.0，可播放B站xml弹幕与市面上流行的视频格式。
+这是一个Android端的弹幕播放器，基于烈焰弹幕使与VitamioLibrary5.0，可播放B站xml弹幕与市面上流行的视频格式。
 
 代码的话，我也有参照很多的开源项目的代码，可能会稍微有些混乱。
 
