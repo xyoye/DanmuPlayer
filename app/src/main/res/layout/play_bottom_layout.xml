@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_bottom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignParentBottom="true"
+    android:background="#66000000"
+    android:paddingLeft="12.5dp"
+    android:paddingRight="12.5dp"
+    android:clickable="true">
+
+
+    <ImageView
+        android:id="@+id/player_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/play_start_icon" />
+
+    <ImageView
+        android:id="@+id/player_play_iv"
+        android:layout_width="33dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:alpha="0"/>
+
+    <TextView
+        android:id="@+id/player_current_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/player_play_iv"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/orientation_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/flash" />
+
+
+    <LinearLayout
+        android:id="@+id/danmu_open_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@+id/orientation_change">
+
+        <ImageView
+            android:id="@+id/danmu_switch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/bili_player_danmaku_is_closed"/>
+
+        <TextView
+            android:id="@+id/danmu_switch_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="8sp"
+            android:text="@string/danmu_close"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/player_total_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="19dp"
+        android:layout_toLeftOf="@id/danmu_open_close"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:id="@+id/player_seekbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/player_total_time"
+        android:layout_toRightOf="@id/player_current_time"
+        android:maxHeight="3dp"
+        android:minHeight="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:progressDrawable="@drawable/seekbar_layer_list"
+        android:thumb="@drawable/seekbar_thumb"
+        android:thumbOffset="5dp" />
+
+</RelativeLayout>
