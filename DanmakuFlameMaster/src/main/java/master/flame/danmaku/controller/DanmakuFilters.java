@@ -27,6 +27,7 @@ public class DanmakuFilters {
     public static final int FILTER_TYPE_TEXTCOLOR = 8;
 
     public static final int FILTER_TYPE_USER_ID = 16;
+    public static final int FILTER_TYPE_KEY_WORD = 1024;
     public static final int FILTER_TYPE_USER_HASH = 32;
 
     public static final int FILTER_TYPE_USER_GUEST = 64;
@@ -301,6 +302,42 @@ public class DanmakuFilters {
     }
 
     /**
+     * 根据词标识黑名单过滤
+     *
+     * @author ch
+     */
+    public static abstract class WordFilter<String> extends BaseDanmakuFilter<List<String>> {
+
+        public List<String> mBlackWordList = new ArrayList<String>();
+
+        private void addToBlackWordList(String word) {
+            if (!mBlackWordList.contains(word)) {
+                mBlackWordList.add(word);
+            }
+        }
+
+        @Override
+        public abstract boolean filter(BaseDanmaku danmaku, int index, int totalsizeInScreen,
+                                       DanmakuTimer timer, boolean fromCachingTask, DanmakuContext config);
+
+        @Override
+        public void setData(List<String> data) {
+            reset();
+            if (data != null) {
+                for (String i : data) {
+                    addToBlackWordList(i);
+                }
+            }
+        }
+
+        @Override
+        public void reset() {
+            mBlackWordList.clear();
+        }
+
+    }
+
+    /**
      * 根据用户Id黑名单过滤
      * 
      * @author ch
@@ -313,6 +350,32 @@ public class DanmakuFilters {
             boolean filtered = danmaku != null && mBlackList.contains(danmaku.userId);
             if (filtered) {
                 danmaku.mFilterParam |= FILTER_TYPE_USER_ID;
+            }
+            return filtered;
+        }
+
+    }
+
+    /**
+     * 根据关键词黑名单过滤
+     *
+     * @author ch
+     */
+    public static class KeyWordFilter extends WordFilter<String> {
+
+        @Override
+        public boolean filter(BaseDanmaku danmaku, int index, int totalsizeInScreen,
+                              DanmakuTimer timer, boolean fromCachingTask, DanmakuContext config) {
+            boolean filtered = false;
+            for (int i=0;i<mBlackWordList.size();i++){
+                String keyword = mBlackWordList.get(i);
+                if(danmaku.text.toString().contains(keyword)){
+                    filtered = true;
+                    break;
+                }
+            }
+            if (filtered) {
+                danmaku.mFilterParam |= FILTER_TYPE_KEY_WORD;
             }
             return filtered;
         }
@@ -536,6 +599,8 @@ public class DanmakuFilters {
 
     public final static String TAG_USER_ID_FILTER = "1014_Filter";
 
+    public final static String TAG_KEY_WORD_FILTER = "1020_Filter";
+
     public final static String TAG_USER_HASH_FILTER = "1015_Filter";
 
     public final static String TAG_GUEST_FILTER = "1016_Filter";
@@ -615,6 +680,8 @@ public class DanmakuFilters {
                 filter = new TextColorFilter();
             } else if (TAG_USER_ID_FILTER.equals(tag)) {
                 filter = new UserIdFilter();
+            }else if(TAG_KEY_WORD_FILTER.equals(tag)){
+                filter = new KeyWordFilter();
             } else if (TAG_USER_HASH_FILTER.equals(tag)) {
                 filter = new UserHashFilter();
             } else if (TAG_GUEST_FILTER.equals(tag)) {

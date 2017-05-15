@@ -24,13 +24,13 @@ public class DanmakuContext {
     }
 
     public enum DanmakuConfigTag {
-        FT_DANMAKU_VISIBILITY, FB_DANMAKU_VISIBILITY, L2R_DANMAKU_VISIBILITY, R2L_DANMAKU_VISIBILIY, SPECIAL_DANMAKU_VISIBILITY, TYPEFACE, TRANSPARENCY, SCALE_TEXTSIZE, MAXIMUM_NUMS_IN_SCREEN, DANMAKU_STYLE, DANMAKU_BOLD, COLOR_VALUE_WHITE_LIST, USER_ID_BLACK_LIST, USER_HASH_BLACK_LIST, SCROLL_SPEED_FACTOR, BLOCK_GUEST_DANMAKU, DUPLICATE_MERGING_ENABLED, MAXIMUN_LINES, OVERLAPPING_ENABLE, ALIGN_BOTTOM;
+        FT_DANMAKU_VISIBILITY, FB_DANMAKU_VISIBILITY, L2R_DANMAKU_VISIBILITY, R2L_DANMAKU_VISIBILIY, SPECIAL_DANMAKU_VISIBILITY, TYPEFACE, TRANSPARENCY, SCALE_TEXTSIZE, MAXIMUM_NUMS_IN_SCREEN, DANMAKU_STYLE, DANMAKU_BOLD, COLOR_VALUE_WHITE_LIST, USER_ID_BLACK_LIST, KEY_WORD_BLACK_LIST, USER_HASH_BLACK_LIST, SCROLL_SPEED_FACTOR, BLOCK_GUEST_DANMAKU, DUPLICATE_MERGING_ENABLED, MAXIMUN_LINES, OVERLAPPING_ENABLE, ALIGN_BOTTOM;
 
         public boolean isVisibilityRelatedTag() {
             return this.equals(FT_DANMAKU_VISIBILITY) || this.equals(FB_DANMAKU_VISIBILITY)
                     || this.equals(L2R_DANMAKU_VISIBILITY) || this.equals(R2L_DANMAKU_VISIBILIY)
                     || this.equals(SPECIAL_DANMAKU_VISIBILITY) || this.equals(COLOR_VALUE_WHITE_LIST)
-                    || this.equals(USER_ID_BLACK_LIST);
+                    || this.equals(USER_ID_BLACK_LIST) || this.equals(KEY_WORD_BLACK_LIST);
         }
     }
 
@@ -92,7 +92,9 @@ public class DanmakuContext {
 
     List<Integer> mColorValueWhiteList = new ArrayList<Integer>();
     
-    List<Integer> mUserIdBlackList = new ArrayList<Integer>(); 
+    List<Integer> mUserIdBlackList = new ArrayList<Integer>();
+
+    List<String> mUserKeyWordBlackList = new ArrayList<String>();
     
     List<String> mUserHashBlackList = new ArrayList<String>();
 
@@ -476,7 +478,40 @@ public class DanmakuContext {
     public List<Integer> getUserIdBlackList(){
         return mUserIdBlackList;
     }
-    
+
+    public DanmakuContext removeKeyWordBlackList(String... keywords){
+        if (keywords == null){
+            return this;
+        }
+        for (String keyword : keywords) {
+            mUserKeyWordBlackList.remove(keyword);
+        }
+        setFilterData(DanmakuFilters.TAG_KEY_WORD_FILTER, mUserKeyWordBlackList);
+        mGlobalFlagValues.updateFilterFlag();
+        notifyConfigureChanged(DanmakuConfigTag.KEY_WORD_BLACK_LIST, mUserKeyWordBlackList);
+        return this;
+    }
+
+    /*
+    *添加屏蔽关键词
+    * @param keyWords
+    * @return
+     */
+    public DanmakuContext addKeyWordBlackList(String... keywords){
+        if (keywords == null){
+            return this;
+        }
+        Collections.addAll(mUserKeyWordBlackList,keywords);
+        setFilterData(DanmakuFilters.TAG_KEY_WORD_FILTER, mUserKeyWordBlackList);
+        mGlobalFlagValues.updateFilterFlag();
+        notifyConfigureChanged(DanmakuConfigTag.KEY_WORD_BLACK_LIST, mUserKeyWordBlackList);
+        return this;
+    }
+
+    public List<String> getKeyWordBlackList(){
+        return mUserKeyWordBlackList;
+    }
+
     /**
      * 设置是否屏蔽游客弹幕
      * @param block true屏蔽，false不屏蔽

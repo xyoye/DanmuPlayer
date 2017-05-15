@@ -9,7 +9,7 @@
     <string name="danmu_close">弹幕关</string>
     <string name="danmu_setting">弹幕设置</string>
     <string name="danmu_switch">弹幕开关</string>
-    <string name="danmu_url">弹幕地址</string>
+    <string name="danmu_url">弹幕</string>
     <string name="change">更换</string>
     <string name="block_list">屏蔽列表</string>
     <string name="mobile_danmu">滚动弹幕</string>
@@ -17,6 +17,9 @@
     <string name="top_danmu">顶部弹幕</string>
     <string name="key_word_block">关键字屏蔽</string>
     <string name="data_loading">数据加载中...</string>
+    <string name="tblock">屏蔽</string>
+    <string name="tsize">字体</string>
+    <string name="tspeed">速度</string>
     <string name="danmu_size">字体大小</string>
     <string name="size_big">大</string>
     <string name="size_middle">中</string>
@@ -26,6 +29,7 @@
     <string name="move_middle">中</string>
     <string name="move_slow">慢</string>
     <string name="about_player">关于</string>
+    <string name="add_block_keyword">添加</string>
 
     <string name="about_player_text">
         &#160;&#160;&#160;&#160;欢迎使用此弹幕播放器(V1.0.1)，正如其名，这个APP是专门为了播放b站离线弹幕而制作的。
