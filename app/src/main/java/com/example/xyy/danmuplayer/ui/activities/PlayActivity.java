@@ -32,6 +32,8 @@ import com.example.xyy.danmuplayer.utils.danmuparser.BiliDanmukuParser;
 import com.example.xyy.danmuplayer.utils.database.DirectoryDao;
 import com.example.xyy.danmuplayer.folderchooser.FolderChooserActivity;
 import com.example.xyy.danmuplayer.ui.view.BatteryView;
+import com.example.xyy.danmuplayer.utils.others.GetFileName;
+import com.example.xyy.danmuplayer.utils.others.ListDataSave;
 import com.example.xyy.danmuplayer.utils.others.PlayerGesture;
 import com.example.xyy.danmuplayer.utils.others.Utility;
 
@@ -133,6 +135,9 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
     private boolean isPlayError = false;// 是否播放出错
     private long currentPosition = 0;// 播放位置
     private int currentVideoLayout = VideoView.VIDEO_LAYOUT_SCALE;
+
+    //存储屏蔽列表信息
+    ListDataSave blockListSave;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -445,6 +450,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
      * 初始化其他组件
      */
     private void initOther() {
+        blockListSave = new ListDataSave(this,"DanmuBlock");
+
         mVideoBottomBar.setOnClickListener(this);
         mVideoCenter.setOnClickListener(this);
         mVideoPlayPause.setOnClickListener(this);
@@ -497,7 +504,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         if (DANMU_PATH.equals("null")){
             danmu_path.setText("");
         }else {
-            danmu_path.setText(DANMU_PATH);
+            danmu_path.setText(new GetFileName().getName(DANMU_PATH));
         }
         danmu_switch.setOnClickListener(this);
         danmu_setting.setOnClickListener(this);
@@ -513,15 +520,21 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         top_danmu.setOnClickListener(this);
         text_big.setOnClickListener(this);
         text_middle.setOnClickListener(this);
-        text_middle.setTextColor(Color.RED);
+        text_middle.setTextColor(Color.parseColor("#28d9f6"));
         text_small.setOnClickListener(this);
         move_fast.setOnClickListener(this);
         move_middle.setOnClickListener(this);
-        move_middle.setTextColor(Color.RED);
+        move_middle.setTextColor(Color.parseColor("#28d9f6"));
         move_slow.setOnClickListener(this);
-        //弹幕地址设置为点击不弹窗
-        danmu_path.setInputType(InputType.TYPE_NULL);
         block_keyword_list = new ArrayList<String>();
+    }
+
+    /**
+     * 初始化屏蔽列表
+     */
+    private void initBlock(){
+        block_keyword_list = blockListSave.getDataList("blockList");
+        display_block_keyword();
     }
 
     /**
@@ -721,22 +734,22 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 topDanmuSetting();
                 break;
             case R.id.text_size_big:
-                setDanmuTextSize(1.2f,Color.GRAY,Color.GRAY,Color.RED);
+                setDanmuTextSize(1.2f,Color.GRAY,Color.GRAY,Color.parseColor("#28d9f6"));
                 break;
             case R.id.text_size_middle:
-                setDanmuTextSize(1.0f,Color.GRAY,Color.RED,Color.GRAY);
+                setDanmuTextSize(1.0f,Color.GRAY,Color.parseColor("#28d9f6"),Color.GRAY);
                 break;
             case R.id.text_size_small:
-                setDanmuTextSize(0.8f,Color.RED,Color.GRAY,Color.GRAY);
+                setDanmuTextSize(0.8f,Color.parseColor("#28d9f6"),Color.GRAY,Color.GRAY);
                 break;
             case R.id.text_move_fast:
-                setDanmuTextSpeed(1.0f,Color.GRAY,Color.GRAY,Color.RED);
+                setDanmuTextSpeed(1.0f,Color.GRAY,Color.GRAY,Color.parseColor("#28d9f6"));
                 break;
             case R.id.text_move_middle:
-                setDanmuTextSpeed(1.2f,Color.GRAY,Color.RED,Color.GRAY);
+                setDanmuTextSpeed(1.2f,Color.GRAY,Color.parseColor("#28d9f6"),Color.GRAY);
                 break;
             case R.id.text_move_slow:
-                setDanmuTextSpeed(1.4f,Color.RED,Color.GRAY,Color.GRAY);
+                setDanmuTextSpeed(1.4f,Color.parseColor("#28d9f6"),Color.GRAY,Color.GRAY);
                 break;
             default:
                 break;
@@ -796,11 +809,11 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 mDanmakuView.hide();
                 danmu_is_open = false;
             }else {
-                if (!danmu_path.getText().toString().equals("")){
+                if (!DANMU_PATH.equals("")){
                     try {
                         if (first_start_danme){
                             mDanmakuView.release();
-                            danmu = new FileInputStream(danmu_path.getText().toString());
+                            danmu = new FileInputStream(DANMU_PATH);
                             mParser = createParser(danmu);
                             mDanmakuView.prepare(mParser, mDanmukuContext);
                             first_start_danme = false;
@@ -851,21 +864,40 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
      */
     public void add_block_keyword(){
         String keyword = add_keyword_et.getText().toString();
-        View view = View.inflate(PlayActivity.this, R.layout.keyword_layout, null);
-        TextView tv = (TextView) view.findViewById(R.id.key_word);
-        tv.setText(keyword);
-        block_keyword_list.add(keyword);
-        danmu_setting_scroller.scrollTo(0,danmu_setting_scroller.getHeight());
-        Toast.makeText(PlayActivity.this,"已屏蔽："+keyword,Toast.LENGTH_LONG).show();
+        if ((!block_keyword_list.contains(keyword)) && !"".equals(keyword.trim())){
+            block_keyword_list.add(keyword.trim());
+            blockListSave.setDataList("blockList",block_keyword_list);
+            display_block_keyword();
+            Toast.makeText(this,"已屏蔽："+keyword,Toast.LENGTH_LONG).show();
+        }
+    }
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                keyword_group.removeView(v);
-            }
-        });
-        keyword_group.addView(view);
+    /*
+    *展示屏蔽关键词
+     */
+    public void display_block_keyword(){
+        keyword_group.removeAllViews();
+        for (int i=0;i<block_keyword_list.size();i++){
+            String keyword = block_keyword_list.get(i);
+            View view = View.inflate(PlayActivity.this, R.layout.keyword_layout, null);
+            TextView tv = (TextView) view.findViewById(R.id.key_word);
+            tv.setText(keyword);
+            //添加屏蔽词
+            mDanmukuContext.addKeyWordBlackList(keyword);
+            //保存屏蔽列表
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    mDanmukuContext.removeKeyWordBlackList(block_keyword_list.get(v.getId()+1));
+                    block_keyword_list.remove(v.getId()+1);
+                    //保存屏蔽列表
+                    blockListSave.setDataList("blockList",block_keyword_list);
+                    keyword_group.removeView(v);
+                }
+            });
+            keyword_group.addView(view);
+        }
     }
 
     /*
@@ -882,28 +914,46 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 danmu_speed_setting.setVisibility(View.GONE);
                 break;
             case 1:
-                block_setting_display.setTextColor(Color.RED);
-                size_setting_display.setTextColor(Color.WHITE);
-                speed_setting_display.setTextColor(Color.WHITE);
-                danmu_block_setting.setVisibility(View.VISIBLE);
-                danmu_size_setting.setVisibility(View.GONE);
-                danmu_speed_setting.setVisibility(View.GONE);
+                if(danmu_block_setting.getVisibility() == View.VISIBLE){
+                    block_setting_display.setTextColor(Color.WHITE);
+                    danmu_block_setting.setVisibility(View.GONE);
+                }else{
+                    block_setting_display.setTextColor(Color.parseColor("#28d9f6"));
+                    size_setting_display.setTextColor(Color.WHITE);
+                    speed_setting_display.setTextColor(Color.WHITE);
+                    danmu_block_setting.setVisibility(View.VISIBLE);
+                    danmu_size_setting.setVisibility(View.GONE);
+                    danmu_speed_setting.setVisibility(View.GONE);
+
+                    //初始化屏蔽列表
+                    initBlock();
+                }
                 break;
             case 2:
-                block_setting_display.setTextColor(Color.WHITE);
-                size_setting_display.setTextColor(Color.RED);
-                speed_setting_display.setTextColor(Color.WHITE);
-                danmu_block_setting.setVisibility(View.GONE);
-                danmu_size_setting.setVisibility(View.VISIBLE);
-                danmu_speed_setting.setVisibility(View.GONE);
+                if (danmu_size_setting.getVisibility() == View.VISIBLE){
+                    size_setting_display.setTextColor(Color.WHITE);
+                    danmu_size_setting.setVisibility(View.GONE);
+                }else{
+                    block_setting_display.setTextColor(Color.WHITE);
+                    size_setting_display.setTextColor(Color.parseColor("#28d9f6"));
+                    speed_setting_display.setTextColor(Color.WHITE);
+                    danmu_block_setting.setVisibility(View.GONE);
+                    danmu_size_setting.setVisibility(View.VISIBLE);
+                    danmu_speed_setting.setVisibility(View.GONE);
+                }
                 break;
             case 3:
-                block_setting_display.setTextColor(Color.WHITE);
-                size_setting_display.setTextColor(Color.WHITE);
-                speed_setting_display.setTextColor(Color.RED);
-                danmu_block_setting.setVisibility(View.GONE);
-                danmu_size_setting.setVisibility(View.GONE);
-                danmu_speed_setting.setVisibility(View.VISIBLE);
+                if(danmu_speed_setting.getVisibility() == View.VISIBLE){
+                    speed_setting_display.setTextColor(Color.WHITE);
+                    danmu_speed_setting.setVisibility(View.GONE);
+                }else{
+                    block_setting_display.setTextColor(Color.WHITE);
+                    size_setting_display.setTextColor(Color.WHITE);
+                    speed_setting_display.setTextColor(Color.parseColor("#28d9f6"));
+                    danmu_block_setting.setVisibility(View.GONE);
+                    danmu_size_setting.setVisibility(View.GONE);
+                    danmu_speed_setting.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
@@ -985,7 +1035,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 case CHANGE_DANMU_PATH:
                     File folder = (File) data.getSerializableExtra("file_path");
                     DANMU_PATH = folder.getAbsolutePath();
-                    danmu_path.setText(DANMU_PATH);
+                    danmu_path.setText(new GetFileName().getName(DANMU_PATH));
                     break;
             }
         }
