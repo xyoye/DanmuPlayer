@@ -18,7 +18,8 @@
             <com.example.xyy.DanmuPlayer.utils.others.XCRoundRectImageView
                 android:id="@+id/video_iv"
                 android:layout_width="48dp"
-                android:layout_height="48dp"/>
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"/>
             <RelativeLayout
                 android:id="@+id/time_rl"
                 android:layout_width="96dp"
