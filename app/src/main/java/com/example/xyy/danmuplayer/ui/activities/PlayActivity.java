@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.ui.activities;
+package com.example.xyy.DanmuPlayer.ui.activities;
 
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -22,20 +21,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xyy.danmuplayer.R;
-import com.example.xyy.danmuplayer.utils.danmuparser.BiliDanmukuParser;
-import com.example.xyy.danmuplayer.utils.database.DirectoryDao;
-import com.example.xyy.danmuplayer.folderchooser.FolderChooserActivity;
-import com.example.xyy.danmuplayer.ui.view.BatteryView;
-import com.example.xyy.danmuplayer.utils.others.GetFileName;
-import com.example.xyy.danmuplayer.utils.others.ListDataSave;
-import com.example.xyy.danmuplayer.utils.others.PlayerGesture;
-import com.example.xyy.danmuplayer.utils.others.Utility;
+import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.utils.danmuparser.BiliDanmukuParser;
+import com.example.xyy.DanmuPlayer.utils.database.DirectoryDao;
+import com.example.xyy.DanmuPlayer.folderchooser.FolderChooserActivity;
+import com.example.xyy.DanmuPlayer.ui.view.BatteryView;
+import com.example.xyy.DanmuPlayer.utils.others.GetFileName;
+import com.example.xyy.DanmuPlayer.utils.others.ListDataSave;
+import com.example.xyy.DanmuPlayer.utils.others.PlayerGesture;
+import com.example.xyy.DanmuPlayer.utils.others.Utility;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -438,7 +436,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
 
             @Override
             public void onProgressChanged(SeekBar seekbar, int position, boolean arg2) {
-                float percent = position / (float) seekbar.getMax();
+                float percent = position / (float) seekbar.getMax() ;
                 mCurrentTime.setText(StringUtils.generateTime(
                         (int) (mVideoView.getDuration() * percent)));
                 seekbar_is_change = true;
@@ -501,7 +499,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
             mLoadingView.setVisibility(View.VISIBLE);
         }
 
-        if (DANMU_PATH.equals("null")){
+        if ("null".equals(DANMU_PATH)){
             danmu_path.setText("");
         }else {
             danmu_path.setText(new GetFileName().getName(DANMU_PATH));
@@ -809,7 +807,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 mDanmakuView.hide();
                 danmu_is_open = false;
             }else {
-                if (!DANMU_PATH.equals("")){
+                if (!"".equals(DANMU_PATH)){
                     try {
                         if (first_start_danme){
                             mDanmakuView.release();

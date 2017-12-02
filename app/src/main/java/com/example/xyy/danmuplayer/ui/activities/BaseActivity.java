@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.ui.activities;
+package com.example.xyy.DanmuPlayer.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;

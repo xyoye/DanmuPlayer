@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.ui.view;
+package com.example.xyy.DanmuPlayer.ui.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.xyy.danmuplayer.R;
-import com.example.xyy.danmuplayer.utils.others.DensityUtil;
+import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.utils.others.DensityUtil;
 /**
  * 亮度，声音调节
  * Created by xyy on 2017/2/6

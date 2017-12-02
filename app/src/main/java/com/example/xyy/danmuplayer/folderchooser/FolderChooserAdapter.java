@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.folderchooser;
+package com.example.xyy.DanmuPlayer.folderchooser;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.xyy.danmuplayer.R;
+import com.example.xyy.DanmuPlayer.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.bean;
+package com.example.xyy.DanmuPlayer.bean;
 
 public class Directory {
     private int id;

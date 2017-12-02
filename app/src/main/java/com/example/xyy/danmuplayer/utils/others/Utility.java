@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.others;
+package com.example.xyy.DanmuPlayer.utils.others;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -9,7 +9,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xyy.danmuplayer.R;
+import com.example.xyy.DanmuPlayer.R;
 
 /**
  * 工具类

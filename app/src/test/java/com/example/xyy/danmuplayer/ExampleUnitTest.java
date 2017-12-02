@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer;
+package com.example.xyy.DanmuPlayer;
 
 import org.junit.Test;
 

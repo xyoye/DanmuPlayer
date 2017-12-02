@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.listvew;
+package com.example.xyy.DanmuPlayer.utils.listvew;
 
 import android.content.Context;
 import android.view.View;
@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.xyy.danmuplayer.bean.Directory;
-import com.example.xyy.danmuplayer.R;
+import com.example.xyy.DanmuPlayer.bean.Directory;
+import com.example.xyy.DanmuPlayer.R;
 
 import java.util.List;
 

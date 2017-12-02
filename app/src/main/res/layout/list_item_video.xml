@@ -15,10 +15,10 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <com.example.xyy.danmuplayer.utils.others.XCRoundRectImageView
+            <com.example.xyy.DanmuPlayer.utils.others.XCRoundRectImageView
                 android:id="@+id/video_iv"
-                android:layout_width="96dp"
-                android:layout_height="60dp"/>
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
             <RelativeLayout
                 android:id="@+id/time_rl"
                 android:layout_width="96dp"
@@ -42,14 +42,14 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="68dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="3dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="15dp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/video_name"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
                 android:layout_centerVertical="true"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"/>

@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.others;
+package com.example.xyy.DanmuPlayer.utils.others;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.xyy.danmuplayer.R;
-import com.example.xyy.danmuplayer.ui.view.LightnessVolumeView;
+import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.ui.view.LightnessVolumeView;
 
 import io.vov.vitamio.utils.ScreenResolution;
 import io.vov.vitamio.utils.StringUtils;

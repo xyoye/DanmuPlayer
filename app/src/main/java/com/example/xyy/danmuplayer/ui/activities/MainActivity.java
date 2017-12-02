@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.ui.activities;
+package com.example.xyy.DanmuPlayer.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,18 +12,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xyy.danmuplayer.R;
-import com.example.xyy.danmuplayer.bean.Directory;
-import com.example.xyy.danmuplayer.folderchooser.FolderChooserActivity;
-import com.example.xyy.danmuplayer.utils.listvew.DirectoryAdapter;
-import com.example.xyy.danmuplayer.utils.database.DirectoryDao;
-import com.example.xyy.danmuplayer.utils.others.FindVideoList;
+import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.bean.Directory;
+import com.example.xyy.DanmuPlayer.folderchooser.FolderChooserActivity;
+import com.example.xyy.DanmuPlayer.utils.listvew.DirectoryAdapter;
+import com.example.xyy.DanmuPlayer.utils.database.DirectoryDao;
+import com.example.xyy.DanmuPlayer.utils.others.FindVideoList;
 
 import java.io.File;
 import java.util.ArrayList;

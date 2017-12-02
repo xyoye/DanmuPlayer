@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.database;
+package com.example.xyy.DanmuPlayer.utils.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

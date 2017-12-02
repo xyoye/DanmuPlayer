@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.xyy.danmuplayer.utils.danmuparser;
+package com.example.xyy.DanmuPlayer.utils.danmuparser;
 
 import android.graphics.Color;
 import android.text.TextUtils;

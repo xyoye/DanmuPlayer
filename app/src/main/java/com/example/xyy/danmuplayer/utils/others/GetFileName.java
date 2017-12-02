@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.others;
+package com.example.xyy.DanmuPlayer.utils.others;
 
 /**
  * Created by YE on 2017/5/15.

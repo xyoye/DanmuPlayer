@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.ui.view;
+package com.example.xyy.DanmuPlayer.ui.view;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.xyy.danmuplayer.R;
+import com.example.xyy.DanmuPlayer.R;
 
 /**
  * 电池组件

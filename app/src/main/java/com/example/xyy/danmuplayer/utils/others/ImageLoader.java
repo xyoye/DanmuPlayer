@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.others;
+package com.example.xyy.DanmuPlayer.utils.others;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import io.vov.vitamio.ThumbnailUtils;
+
+/**
+ * Created by YE on 2017/12/3.
+ */
 
 public class ImageLoader {
     Map<String, Bitmap> imgCache = Collections.synchronizedMap(new HashMap<String, Bitmap>());
@@ -41,20 +45,21 @@ public class ImageLoader {
 
     //从网络获取图片
     private Bitmap getBitmap(String url){
-       //Bitmap bitmap =  android.media.ThumbnailUtils.createVideoThumbnail (url, MediaStore.Images.Thumbnails.MICRO_KIND);
+        //Bitmap bitmap =  android.media.ThumbnailUtils.createVideoThumbnail (url, MediaStore.Images.Thumbnails.MICRO_KIND);
        /* MediaMetadataRetriever media = new MediaMetadataRetriever();
         media.setDataSource(url);
         Bitmap bitmap = media.getFrameAtTime();*/
 
         // 缓存缩略图
-        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(context,url,
-                io.vov.vitamio.provider.MediaStore.Video.Thumbnails.MICRO_KIND);
+        Bitmap bitmap = android.media.ThumbnailUtils.createVideoThumbnail(
+                url, MediaStore.Images.Thumbnails.MICRO_KIND);
         if (bitmap == null) {// vitamio取不到，用原生方法取
             bitmap = android.media.ThumbnailUtils.createVideoThumbnail(
                     url, MediaStore.Images.Thumbnails.MICRO_KIND);
         }
         return bitmap;
     }
+
 
     class DownloadImageThread extends Thread{
         String url;

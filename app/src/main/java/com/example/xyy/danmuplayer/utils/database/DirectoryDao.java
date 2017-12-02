@@ -1,10 +1,9 @@
-package com.example.xyy.danmuplayer.utils.database;
+package com.example.xyy.DanmuPlayer.utils.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.example.xyy.danmuplayer.utils.database.DirectoryHelper;
 
 import java.util.ArrayList;
 import java.util.List;

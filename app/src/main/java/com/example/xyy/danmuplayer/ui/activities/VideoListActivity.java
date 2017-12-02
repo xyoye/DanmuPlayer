@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.ui.activities;
+package com.example.xyy.DanmuPlayer.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xyy.danmuplayer.bean.Video;
-import com.example.xyy.danmuplayer.R;
-import com.example.xyy.danmuplayer.utils.database.DirectoryDao;
-import com.example.xyy.danmuplayer.utils.listvew.VideoAdapter;
+import com.example.xyy.DanmuPlayer.bean.Video;
+import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.utils.database.DirectoryDao;
+import com.example.xyy.DanmuPlayer.utils.listvew.VideoAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

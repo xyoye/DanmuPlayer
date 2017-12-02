@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer;
+package com.example.xyy.DanmuPlayer;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

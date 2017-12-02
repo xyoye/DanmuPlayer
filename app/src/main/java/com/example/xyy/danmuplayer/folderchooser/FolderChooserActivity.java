@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.folderchooser;
+package com.example.xyy.DanmuPlayer.folderchooser;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.xyy.danmuplayer.R;
-import com.example.xyy.danmuplayer.utils.flexibledivider.HorizontalDividerItemDecoration;
+import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.utils.flexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;

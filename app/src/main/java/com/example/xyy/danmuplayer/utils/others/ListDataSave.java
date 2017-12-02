@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.utils.others;
+package com.example.xyy.DanmuPlayer.utils.others;
 
 import android.content.Context;
 import android.content.SharedPreferences;

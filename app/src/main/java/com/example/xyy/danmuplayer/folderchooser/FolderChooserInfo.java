@@ -1,4 +1,4 @@
-package com.example.xyy.danmuplayer.folderchooser;
+package com.example.xyy.DanmuPlayer.folderchooser;
 
 import java.io.File;
 
