@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.xyy.DanmuPlayer.ui.activities.VideoListActivity"/>
+        <activity android:name="com.example.xyy.DanmuPlayer.ui.activities.SmbActivity"/>
         <activity
             android:name="com.example.xyy.DanmuPlayer.ui.activities.PlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -94,7 +95,7 @@
                 <data android:pathPattern=".*\\.mp4" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.xyy.DanmuPlayer.folderchooser.FolderChooserActivity"/>
+        <activity android:name="com.example.xyy.DanmuPlayer.ui.activities.FolderChooserActivity"/>
     </application>
 
 </manifest>

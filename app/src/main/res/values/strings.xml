@@ -30,6 +30,7 @@
     <string name="move_slow">慢</string>
     <string name="about_player">关于</string>
     <string name="add_block_keyword">添加</string>
+    <string name="localNetwork">局域网</string>
 
     <string name="about_player_text">
         &#160;&#160;&#160;&#160;欢迎使用此弹幕播放器(V1.1.1)，正如其名，这个APP是专门为了播放b站离线弹幕而制作的。

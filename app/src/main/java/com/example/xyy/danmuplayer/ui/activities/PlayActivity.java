@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.example.xyy.DanmuPlayer.R;
 import com.example.xyy.DanmuPlayer.utils.danmuparser.BiliDanmukuParser;
 import com.example.xyy.DanmuPlayer.utils.database.DirectoryDao;
-import com.example.xyy.DanmuPlayer.folderchooser.FolderChooserActivity;
 import com.example.xyy.DanmuPlayer.ui.view.BatteryView;
 import com.example.xyy.DanmuPlayer.utils.others.GetFileName;
 import com.example.xyy.DanmuPlayer.utils.others.ListDataSave;
@@ -1031,8 +1030,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         if (resultCode == RESULT_OK) {
             switch (requestCode){
                 case CHANGE_DANMU_PATH:
-                    File folder = (File) data.getSerializableExtra("file_path");
-                    DANMU_PATH = folder.getAbsolutePath();
+                    File file = (File) data.getSerializableExtra("file_path");
+                    DANMU_PATH = file.getAbsolutePath();
                     danmu_path.setText(new GetFileName().getName(DANMU_PATH));
                     break;
             }

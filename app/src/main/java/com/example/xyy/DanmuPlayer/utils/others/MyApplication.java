@@ -63,11 +63,11 @@ public class MyApplication extends Application {
         DisplayImageOptions options;
         options = new DisplayImageOptions.Builder()
                 //设置图片在下载期间显示的图片
-                .showImageOnLoading(R.drawable.video)
+                .showImageOnLoading(R.drawable.video_img)
                 //设置图片URI为空或是错误的时候显示的图片
-                .showImageForEmptyUri(R.drawable.video)
+                .showImageForEmptyUri(R.drawable.video_img)
                 //设置图片加载/解码过程中错误时候显示的图片
-                .showImageOnFail(R.drawable.video)
+                .showImageOnFail(R.drawable.video_img)
                 //设置下载图片是否缓存在内存中
                 .cacheInMemory(true)
                 //设置图片是否缓存在sd卡中

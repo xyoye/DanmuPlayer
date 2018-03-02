@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.ui.activities.FolderChooserActivity;
 
 import java.util.List;
 

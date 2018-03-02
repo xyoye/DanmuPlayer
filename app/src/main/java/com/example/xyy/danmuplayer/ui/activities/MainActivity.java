@@ -1,5 +1,6 @@
 package com.example.xyy.DanmuPlayer.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.xyy.DanmuPlayer.R;
 import com.example.xyy.DanmuPlayer.bean.Directory;
-import com.example.xyy.DanmuPlayer.folderchooser.FolderChooserActivity;
 import com.example.xyy.DanmuPlayer.utils.listvew.DirectoryAdapter;
 import com.example.xyy.DanmuPlayer.utils.database.DirectoryDao;
 import com.example.xyy.DanmuPlayer.utils.others.FindVideoList;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     boolean search_success = true;
     int wait_time;
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler()
     {
         public void handleMessage(android.os.Message msg)

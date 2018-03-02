@@ -7,51 +7,53 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="5dp"
+        android:layout_height="63dp"
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:paddingBottom="3dp">
+
             <com.example.xyy.DanmuPlayer.utils.others.XCRoundRectImageView
                 android:id="@+id/video_iv"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_centerInParent="true" />
             <RelativeLayout
                 android:id="@+id/time_rl"
-                android:layout_width="96dp"
+                android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:paddingBottom="3dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
                 android:background="@drawable/coener_round"
-                android:alpha="0.7">
+                android:alpha="0.5">
                 <TextView
                     android:id="@+id/video_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:textSize="9sp"
+                    android:layout_marginEnd="5dp"
+                    android:textSize="8sp"
                     android:textColor="@android:color/white"/>
             </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_marginLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/video_name"
                 android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
+                android:layout_height="48dp"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"/>
 
