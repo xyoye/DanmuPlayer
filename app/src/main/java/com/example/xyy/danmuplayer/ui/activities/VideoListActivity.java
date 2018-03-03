@@ -61,12 +61,6 @@ public class VideoListActivity extends AppCompatActivity implements AdapterView.
       * 初始化组件
       */
      public void initView(){
-         //设置通知栏为透明
-         View decorView=getWindow().getDecorView();
-         int option=View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-         decorView.setSystemUiVisibility(option);
-         getWindow().setStatusBarColor(Color.TRANSPARENT);
-
          tvTitle = (TextView)findViewById(R.id.tv_title);
          lvVideo = (ListView)findViewById(R.id.lv_video);
      }

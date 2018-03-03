@@ -104,12 +104,6 @@ public class MainActivity extends AppCompatActivity implements
      * 初始化组件
      */
     public void initView(){
-        //设置通知栏为透明
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        decorView.setSystemUiVisibility(option);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-
         addDirectory = (ImageView)this.findViewById(R.id.iv_add_folder);
         aboutDisplay = (ImageView)this.findViewById(R.id.iv_about_display);
         lvFolder = (ListView)findViewById(R.id.lv_folder);
