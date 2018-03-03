@@ -436,7 +436,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
                             remoteUrl = remoteUrl + "/";
 
                         Intent intent = new Intent(FolderChooserActivity.this, SmbActivity.class);
-                        intent.putExtra("smb_url",remoteUrl);
+                        intent.putExtra("smbUrl",remoteUrl);
                         startActivityForResult(intent,SELECT_SMBFILE);
                     }
                 }.start();

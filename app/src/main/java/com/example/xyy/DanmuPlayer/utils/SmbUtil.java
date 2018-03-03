@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.vov.vitamio.utils.Log;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 
@@ -26,6 +27,7 @@ import jcifs.smb.SmbFileInputStream;
 public class SmbUtil {
 
     public List<SmbInfo> getFileNamesFromSmb(String smbMachine){
+        Log.d("connect to url："+smbMachine);
         List<SmbInfo> infoList = new ArrayList<>();
         SmbFile smbFile;
         SmbFile[] files;
