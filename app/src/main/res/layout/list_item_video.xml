@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:paddingBottom="3dp">
 
-            <com.example.xyy.DanmuPlayer.utils.others.XCRoundRectImageView
+            <com.example.xyy.DanmuPlayer.ui.view.XCRoundRectImageView
                 android:id="@+id/video_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

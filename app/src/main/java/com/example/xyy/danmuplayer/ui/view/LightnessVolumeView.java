@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xyy.DanmuPlayer.R;
-import com.example.xyy.DanmuPlayer.utils.others.DensityUtil;
+import com.example.xyy.DanmuPlayer.utils.DensityUtil;
 /**
  * 亮度，声音调节
  * Created by xyy on 2017/2/6

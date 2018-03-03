@@ -1,5 +1,4 @@
-package com.example.xyy.DanmuPlayer.folderchooser.localnetwork;
-
+package com.example.xyy.DanmuPlayer.ui.adpter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,20 +9,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.example.xyy.DanmuPlayer.R;
-import com.example.xyy.DanmuPlayer.ui.activities.SmbActivity;
+import com.example.xyy.DanmuPlayer.bean.FolderChooserInfo;
+import com.example.xyy.DanmuPlayer.ui.activities.FolderChooserActivity;
 
 import java.util.List;
 
-public class SmbAdapter extends RecyclerView.Adapter<SmbAdapter.ViewHolder> {
+public class FolderChooserAdapter extends RecyclerView.Adapter<FolderChooserAdapter.ViewHolder> {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<SmbInfo> mData;
-    private SmbActivity.ItemClickCallback callback;
+    private List<FolderChooserInfo> mData;
+    private FolderChooserActivity.ItemClickCallback callback;
 
-    public SmbAdapter(Context mContext, List<SmbInfo> mData, SmbActivity.ItemClickCallback callback) {
+    public FolderChooserAdapter(Context mContext, List<FolderChooserInfo> mData, FolderChooserActivity.ItemClickCallback callback) {
         this.mContext = mContext;
         this.mData = mData;
         this.callback = callback;
@@ -39,7 +38,7 @@ public class SmbAdapter extends RecyclerView.Adapter<SmbAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final SmbInfo info = mData.get(position);
+        final FolderChooserInfo info = mData.get(position);
         holder.name.setText(info.getName() == null ? "" : info.getName());
 
         holder.v.setOnClickListener(new View.OnClickListener() {

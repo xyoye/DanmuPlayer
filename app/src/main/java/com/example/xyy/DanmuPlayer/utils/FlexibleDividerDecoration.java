@@ -1,4 +1,4 @@
-package com.example.xyy.DanmuPlayer.utils.flexibledivider;
+package com.example.xyy.DanmuPlayer.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

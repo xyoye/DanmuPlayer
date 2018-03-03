@@ -26,13 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xyy.DanmuPlayer.R;
-import com.example.xyy.DanmuPlayer.utils.danmuparser.BiliDanmukuParser;
-import com.example.xyy.DanmuPlayer.utils.database.DirectoryDao;
+import com.example.xyy.DanmuPlayer.utils.BiliDanmukuParser;
+import com.example.xyy.DanmuPlayer.database.DirectoryDao;
 import com.example.xyy.DanmuPlayer.ui.view.BatteryView;
-import com.example.xyy.DanmuPlayer.utils.others.GetFileName;
-import com.example.xyy.DanmuPlayer.utils.others.ListDataSave;
-import com.example.xyy.DanmuPlayer.utils.others.PlayerGesture;
-import com.example.xyy.DanmuPlayer.utils.others.Utility;
+import com.example.xyy.DanmuPlayer.utils.GetFileName;
+import com.example.xyy.DanmuPlayer.utils.ListDataSave;
+import com.example.xyy.DanmuPlayer.utils.PlayerGesture;
+import com.example.xyy.DanmuPlayer.utils.Utility;
 
 import java.io.File;
 import java.io.FileInputStream;

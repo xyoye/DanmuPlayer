@@ -1,4 +1,4 @@
-package com.example.xyy.DanmuPlayer.folderchooser.localnetwork;
+package com.example.xyy.DanmuPlayer.bean;
 
 public class SmbInfo {
 

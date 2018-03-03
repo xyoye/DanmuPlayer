@@ -1,4 +1,4 @@
-package com.example.xyy.DanmuPlayer.utils.others;
+package com.example.xyy.DanmuPlayer.utils;
 
 import android.app.Application;
 import android.graphics.Bitmap;

@@ -1,9 +1,10 @@
-package com.example.xyy.DanmuPlayer.folderchooser.localnetwork;
+package com.example.xyy.DanmuPlayer.utils;
 
 import android.os.Environment;
 import android.os.StatFs;
 
 import com.example.xyy.DanmuPlayer.R;
+import com.example.xyy.DanmuPlayer.bean.SmbInfo;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

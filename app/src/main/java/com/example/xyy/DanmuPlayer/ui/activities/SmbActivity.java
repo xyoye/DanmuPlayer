@@ -16,10 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xyy.DanmuPlayer.R;
-import com.example.xyy.DanmuPlayer.folderchooser.localnetwork.SmbAdapter;
-import com.example.xyy.DanmuPlayer.folderchooser.localnetwork.SmbInfo;
-import com.example.xyy.DanmuPlayer.folderchooser.localnetwork.SmbUtil;
-import com.example.xyy.DanmuPlayer.utils.flexibledivider.HorizontalDividerItemDecoration;
+import com.example.xyy.DanmuPlayer.ui.adpter.SmbAdapter;
+import com.example.xyy.DanmuPlayer.bean.SmbInfo;
+import com.example.xyy.DanmuPlayer.utils.SmbUtil;
+import com.example.xyy.DanmuPlayer.utils.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,8 +38,8 @@ public class SmbActivity extends AppCompatActivity {
     LinearLayout loading_view;
     SmbInfo smbInfo;
 
-    private String smb_url = "";
-    private String base_url = "";
+    private String smbUrl = "";
+    private String baseUrl = "";
 
     private SmbAdapter mAdapter;
     private List<SmbInfo> mData;
@@ -56,7 +56,7 @@ public class SmbActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case 0:
-                    savePath.setText(smb_url);
+                    savePath.setText(smbUrl);
                     mData.clear();
                     mData.addAll(getContentsArray());
                     mAdapter.notifyDataSetChanged();
@@ -77,14 +77,57 @@ public class SmbActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smb_folder_chooser);
-        base_url = getIntent().getStringExtra("smb_url");
-        smb_url = base_url;
+
+        initData();
+        
+        initView();
+        
+        setData();
+    }
+
+
+    private void initData(){
+        mData = new ArrayList<>();
+
+        baseUrl = getIntent().getStringExtra("smbUrl");
+        smbUrl = baseUrl;
         singleThreadExecutor = Executors.newSingleThreadExecutor();
 
         smbInfo = new SmbInfo();
-
-        initView();
-        setData();
+    }
+    
+    private void initView() {
+        titleLeft = (ImageView) this.findViewById(R.id.title_left);
+        titleText = (TextView) this.findViewById(R.id.title_text);
+        savePath = (TextView)this.findViewById(R.id.save_path);
+        recyclerView = (RecyclerView)this.findViewById(R.id.recyclerView);
+        loading_view = (LinearLayout) this.findViewById(R.id.loading_view);
+        
+        titleText.setText("请选择文件");
+        titleLeft.setVisibility(View.VISIBLE);
+        titleLeft.setImageResource(R.mipmap.ic_arrow_back_white_24dp);
+        titleLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SmbActivity.this.finish();
+            }
+        });
+        
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
+                .color(0xFFE9E7E8)
+                .size(1)
+                .build());
+        mAdapter = new SmbAdapter(this, mData, new ItemClickCallback() {
+            @Override
+            public void onClick(View view, int position, SmbInfo info) {
+                onSelection(view, position, info);
+            }
+        });
+        recyclerView.setAdapter(mAdapter);
+        savePath.setText(smbUrl);
     }
 
     private void setData(){
@@ -95,50 +138,6 @@ public class SmbActivity extends AppCompatActivity {
                 handler.sendEmptyMessage(0);
             }
         });
-    }
-
-    private void initView() {
-        findViewById();
-        setTitleView();
-        setRecyclerView();
-        savePath.setText(smb_url);
-    }
-
-    //设置标题栏
-    private void setTitleView() {
-        titleText.setText("请选择文件");
-        titleLeft.setVisibility(View.VISIBLE);
-        titleLeft.setImageResource(R.mipmap.ic_arrow_back_white_24dp);
-
-        titleLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SmbActivity.this.finish();
-            }
-        });
-    }
-
-    private void setRecyclerView() {
-        mData = new ArrayList<>();
-        //设置布局管理器
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-
-        //分割线
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
-                .color(0xFFE9E7E8)
-                .size(1)
-                .build());
-
-        //设置适配器
-        mAdapter = new SmbAdapter(this, mData, new ItemClickCallback() {
-            @Override
-            public void onClick(View view, int position, SmbInfo info) {
-                onSelection(view, position, info);
-            }
-        });
-        recyclerView.setAdapter(mAdapter);
     }
 
     private List<SmbInfo> getContentsArray() {
@@ -167,17 +166,17 @@ public class SmbActivity extends AppCompatActivity {
     public void onSelection(View view, int position, SmbInfo info) {
         if (canGoUp && position == 0) {
             if (!info.isDirectory()) {
-                smb_url = smb_url.substring(0,smb_url.length()-1);
-                smb_url = smb_url.substring(0,smb_url.lastIndexOf("/")+1);
+                smbUrl = smbUrl.substring(0,smbUrl.length()-1);
+                smbUrl = smbUrl.substring(0,smbUrl.lastIndexOf("/")+1);
             }
-            if (smb_url.equals(base_url)){
+            if (smbUrl.equals(baseUrl)){
                 canGoUp = false;
             }
             setData();
         }else if (!info.isDirectory()) {
             ChooserEnd(position);
         }else{
-            smb_url = smb_url + info.getName()+"/";
+            smbUrl = smbUrl + info.getName()+"/";
             canGoUp = true;
             loading_view.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -186,7 +185,7 @@ public class SmbActivity extends AppCompatActivity {
     }
 
     private List<SmbInfo> listFiles() {
-        List<SmbInfo> results = new SmbUtil().getFileNamesFromSmb(smb_url);
+        List<SmbInfo> results = new SmbUtil().getFileNamesFromSmb(smbUrl);
         Message message = new Message();
         message.what = ERROR_CODE;
         if (results == null) {
@@ -219,17 +218,11 @@ public class SmbActivity extends AppCompatActivity {
         void onClick(View view, int position, SmbInfo info);
     }
 
-    private void findViewById(){
-        titleLeft = (ImageView) this.findViewById(R.id.title_left);
-        titleText = (TextView) this.findViewById(R.id.title_text);
-        savePath = (TextView)this.findViewById(R.id.save_path);
-        recyclerView = (RecyclerView)this.findViewById(R.id.recyclerView);
-        loading_view = (LinearLayout) this.findViewById(R.id.loading_view);
-    }
-
-    //返回本地缓存文件路径
+    /**
+     * 选择完毕，返回本地缓存文件路径
+     */
     private void ChooserEnd(int position){
-        final String selectUrl = smb_url + mData.get(position).getName() + "/";
+        final String selectUrl = smbUrl + mData.get(position).getName() + "/";
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {

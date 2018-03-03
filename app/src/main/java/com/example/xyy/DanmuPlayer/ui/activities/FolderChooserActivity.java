@@ -21,11 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xyy.DanmuPlayer.R;
-import com.example.xyy.DanmuPlayer.folderchooser.FolderChooserAdapter;
-import com.example.xyy.DanmuPlayer.folderchooser.FolderChooserInfo;
-import com.example.xyy.DanmuPlayer.utils.database.SharedPreferencesHelper;
-import com.example.xyy.DanmuPlayer.utils.flexibledivider.HorizontalDividerItemDecoration;
-import com.example.xyy.DanmuPlayer.utils.others.GetFileName;
+import com.example.xyy.DanmuPlayer.ui.adpter.FolderChooserAdapter;
+import com.example.xyy.DanmuPlayer.bean.FolderChooserInfo;
+import com.example.xyy.DanmuPlayer.database.SharedPreferencesHelper;
+import com.example.xyy.DanmuPlayer.utils.HorizontalDividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
     TextView localNetwork;      //局域网按钮
     TextView savePath;
     RecyclerView recyclerView;
-    LinearLayout loading_view;
+    LinearLayout llLoading;
     SharedPreferencesHelper sharedPreferencesHelper;
 
     //是否为文件夹选择器。true文件夹，false文件
@@ -77,7 +76,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
                     mData.addAll(getContentsArray());
                     mAdapter.notifyDataSetChanged();
 
-                    loading_view.setVisibility(View.GONE);
+                    llLoading.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     break;
                 case CONNECT_TYPE:
@@ -125,7 +124,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         titleText = (TextView) findViewById(R.id.title_text);
         savePath = (TextView) findViewById(R.id.save_path);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        loading_view = (LinearLayout) findViewById(R.id.loading_view);
+        llLoading = (LinearLayout) findViewById(R.id.ll_loading);
         localNetwork = (TextView) this.findViewById(R.id.local_network);
 
         if (isFolderChooser){
@@ -174,21 +173,9 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.title_left:
-                FolderChooserActivity.this.finish();
-                break;
-            case R.id.title_right:
-                ChooserEnd();
-                break;
-            case R.id.local_network:
-                showConnectDialog();
-                break;
-        }
-    }
-
+    /**
+     * 判断是否能返回上一层
+     */
     private List<FolderChooserInfo> getContentsArray() {
         List<FolderChooserInfo> results = new ArrayList<>();
         if (parentContents == null) {
@@ -212,6 +199,9 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         return results;
     }
 
+    /**
+     * item点击事件
+     */
     public void onSelection( View view, int position, FolderChooserInfo info) {
         if (canGoUp && position == 0) {
             if (parentFolder.isFile()) {
@@ -230,12 +220,15 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         if (parentFolder.isFile()) {
             ChooserEnd();
         }else{
-            loading_view.setVisibility(View.VISIBLE);
+            llLoading.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             setData();
         }
     }
 
+    /**
+     * 获取文件列表
+     */
     private List<FolderChooserInfo> listFiles() {
         File[] contents = parentFolder.listFiles();
         List<FolderChooserInfo> results = new ArrayList<>();
@@ -254,7 +247,10 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         }
         return null;
     }
-
+    
+    /**
+     * 获取文件夹列表
+     */
     private List<FolderChooserInfo> listFiles(String mimeType) {
         File[] contents = parentFolder.listFiles();
         List<FolderChooserInfo> results = new ArrayList<>();
@@ -283,6 +279,9 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         return null;
     }
 
+    /**
+     * 判断文件类型
+     */
     boolean fileIsMimeType(File file, String mimeType, MimeTypeMap mimeTypeMap) {
         if (mimeType == null || mimeType.equals("*/*")) {
             return true;
@@ -324,6 +323,9 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         return false;
     }
 
+    /**
+     * 文件排序
+     */
     private static class FileSorter implements Comparator<FolderChooserInfo> {
         @Override
         public int compare(FolderChooserInfo lhs, FolderChooserInfo rhs) {
@@ -337,6 +339,9 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    /**
+     * 文件夹排序
+     */
     private static class FolderSorter implements Comparator<FolderChooserInfo> {
         @Override
         public int compare(FolderChooserInfo lhs, FolderChooserInfo rhs) {
@@ -347,7 +352,10 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
     public interface ItemClickCallback{
         void onClick(View view, int position, FolderChooserInfo info);
     }
-
+    
+    /**
+     * 选择完毕
+     */
     private void ChooserEnd(){
         File result = parentFolder;
         Intent intent = new Intent();
@@ -356,6 +364,10 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         finish();
     }
 
+
+    /**
+     * 文件类型展示
+     */
     private int fileType(File file){
         int image = R.mipmap.type_file;
         if(file.isDirectory()){
@@ -383,6 +395,10 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         return image;
     }
 
+
+    /**
+     * smb信息dialog展示
+     */
     private void showConnectDialog(){
         final AlertDialog.Builder builder;
         View dialog = View.inflate(FolderChooserActivity.this,R.layout.dialog_dlna,null);
@@ -427,6 +443,21 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
             }
         });
         builder.show();
+    }
+    
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.title_left:
+                FolderChooserActivity.this.finish();
+                break;
+            case R.id.title_right:
+                ChooserEnd();
+                break;
+            case R.id.local_network:
+                showConnectDialog();
+                break;
+        }
     }
 
     @Override

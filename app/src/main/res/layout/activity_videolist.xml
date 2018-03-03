@@ -6,7 +6,7 @@
     android:background="@android:color/white">
 
     <TextView
-        android:id="@+id/videolist_activity_action_bar"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:gravity="center"
@@ -15,7 +15,7 @@
         android:textSize="20dp"/>
 
     <ListView
-        android:id="@+id/video_listview"
+        android:id="@+id/lv_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
