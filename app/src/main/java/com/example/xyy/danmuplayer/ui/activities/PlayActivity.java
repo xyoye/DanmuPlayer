@@ -876,19 +876,19 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         keyword_group.removeAllViews();
         for (int i=0;i<block_keyword_list.size();i++){
             String keyword = block_keyword_list.get(i);
-            View view = View.inflate(PlayActivity.this, R.layout.keyword_layout, null);
+            final View view = View.inflate(PlayActivity.this, R.layout.keyword_layout, null);
             TextView tv = (TextView) view.findViewById(R.id.key_word);
             tv.setText(keyword);
+            view.setTag(i);
             //添加屏蔽词
             mDanmukuContext.addKeyWordBlackList(keyword);
             //保存屏蔽列表
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    mDanmukuContext.removeKeyWordBlackList(block_keyword_list.get(v.getId()+1));
-                    block_keyword_list.remove(v.getId()+1);
-                    //保存屏蔽列表
+                    int number = (Integer) v.getTag();
+                    mDanmukuContext.removeKeyWordBlackList(block_keyword_list.get(number));
+                    block_keyword_list.remove(number);
                     blockListSave.setDataList("blockList",block_keyword_list);
                     keyword_group.removeView(v);
                 }
