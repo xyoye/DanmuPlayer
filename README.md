@@ -1,7 +1,6 @@
 DanmuPlayer
-
 ==================
- 
+
 Android端弹幕播放器
  
 ### Features:
