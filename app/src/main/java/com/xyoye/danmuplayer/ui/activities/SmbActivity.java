@@ -28,15 +28,22 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SmbActivity extends AppCompatActivity {
     private final static int ERROR_CODE = 101;
 
+    @BindView(R.id.title_left)
     ImageView titleLeft;        //标题栏左边按钮
+    @BindView(R.id.title_text)
     TextView titleText;         // 标题栏title
+    @BindView(R.id.save_path)
     TextView savePath;
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.loading_view)
     LinearLayout loading_view;
-    SmbInfo smbInfo;
 
     private String smbUrl = "";
     private String baseUrl = "";
@@ -48,6 +55,7 @@ public class SmbActivity extends AppCompatActivity {
     private boolean canGoUp = false;
 
     private ExecutorService singleThreadExecutor;
+    SmbInfo smbInfo;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -77,6 +85,7 @@ public class SmbActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smb_folder_chooser);
+        ButterKnife.bind(this);
 
         initData();
         
@@ -97,11 +106,6 @@ public class SmbActivity extends AppCompatActivity {
     }
     
     private void initView() {
-        titleLeft = (ImageView) this.findViewById(R.id.title_left);
-        titleText = (TextView) this.findViewById(R.id.title_text);
-        savePath = (TextView)this.findViewById(R.id.save_path);
-        recyclerView = (RecyclerView)this.findViewById(R.id.recyclerView);
-        loading_view = (LinearLayout) this.findViewById(R.id.loading_view);
         
         titleText.setText("请选择文件");
         titleLeft.setVisibility(View.VISIBLE);
@@ -123,7 +127,7 @@ public class SmbActivity extends AppCompatActivity {
         mAdapter = new SmbAdapter(this, mData, new ItemClickCallback() {
             @Override
             public void onClick(View view, int position, SmbInfo info) {
-                onSelection(view, position, info);
+                onSelection(position, info);
             }
         });
         recyclerView.setAdapter(mAdapter);
@@ -163,7 +167,7 @@ public class SmbActivity extends AppCompatActivity {
         return results;
     }
 
-    public void onSelection(View view, int position, SmbInfo info) {
+    public void onSelection(int position, SmbInfo info) {
         if (canGoUp && position == 0) {
             if (!info.isDirectory()) {
                 smbUrl = smbUrl.substring(0,smbUrl.length()-1);

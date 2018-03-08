@@ -1,34 +1,30 @@
 package com.xyoye.danmuplayer.ui.activities;
 
-import android.content.CursorLoader;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DigitalClock;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xyoye.danmuplayer.R;
-import com.xyoye.danmuplayer.utils.BiliDanmukuParser;
 import com.xyoye.danmuplayer.database.DirectoryDao;
 import com.xyoye.danmuplayer.ui.view.BatteryView;
+import com.xyoye.danmuplayer.utils.BiliDanmukuParser;
 import com.xyoye.danmuplayer.utils.GetFileName;
 import com.xyoye.danmuplayer.utils.ListDataSave;
 import com.xyoye.danmuplayer.utils.PlayerGesture;
@@ -42,14 +38,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.utils.StringUtils;
 import io.vov.vitamio.widget.VideoView;
-
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.loader.ILoader;
-import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
@@ -62,55 +57,101 @@ import master.flame.danmaku.danmaku.parser.IDataSource;
 /**
  * 播放页
  */
-public class
-PlayActivity extends BaseActivity implements View.OnClickListener{
+public class PlayFragmentActivity extends BaseFragmentActivity implements View.OnClickListener{
     private final int HIDE_INTERVAL = 5000;// 隐藏控制View时间间隔
-    private final int UPDATE_INTERVAL = 1000;// 更新进度条时间间隔
     private final int CHANGE_DANMU_PATH = 1;// 打开文件选择界面的返回码
 
-    private String VIDEO_PATH;
-    private VideoView mVideoView;
-    private View mLoadingView;
-    private TextView mLoadingInfo;
-    private View mVideoCenter;
-    private View mVideoBottomBar;
-    private View mVideoTopBar;
-    private ImageView mVideoPlayPause;
-    private ImageView mVideoPlayPauseView;
-    private TextView mCurrentTime;
-    private TextView mTotalTime;
-    private SeekBar mSeekBar;
-    private ImageView mOrientationChange;
-    private View mBack;
-    private TextView mName;
-    private DigitalClock mDigitalClock;
-    private BatteryView mBatteryView;
+    @BindView(R.id.vitamio_videoview)
+    VideoView mVideoView;
+    @BindView(R.id.player_loading_layout)
+    View mLoadingView;
+    @BindView(R.id.loading_text)
+    TextView mLoadingInfo;
+    @BindView(R.id.player_center_iv)
+    View mVideoCenter;
+    @BindView(R.id.player_bottom_layout)
+    View mVideoBottomBar;
+    @BindView(R.id.player_top_bar)
+    View mVideoTopBar;
+    @BindView(R.id.player_play_iv)
+    ImageView mVideoPlayPause;
+    @BindView(R.id.player_play)
+    ImageView mVideoPlayPauseView;
+    @BindView(R.id.player_current_time)
+    TextView mCurrentTime;
+    @BindView(R.id.player_total_time)
+    TextView mTotalTime;
+    @BindView(R.id.player_seekbar)
+    SeekBar mSeekBar;
+    @BindView(R.id.orientation_change)
+    ImageView mOrientationChange;
+    @BindView(R.id.player_back)
+    View mBack;
+    @BindView(R.id.player_name)
+    TextView mName;
+    @BindView(R.id.battery_view)
+    BatteryView batteryView;
 
+    @BindView(R.id.danmu_setting)
+    TextView danmu_setting;
+    @BindView(R.id.danmu_switch)
+    ImageView danmu_switch;
+    @BindView(R.id.danmu_switch_text)
+    TextView danmu_switch_text;
+    @BindView(R.id.danmu_setting_layout)
+    RelativeLayout danmu_setting_layout;
+    @BindView(R.id.danmu_setting_list)
+    LinearLayout danmu_setting_list;
+    @BindView(R.id.danmu_block_setting)
+    LinearLayout danmu_block_setting;
+    @BindView(R.id.danmu_size_setting)
+    LinearLayout danmu_size_setting;
+    @BindView(R.id.danmu_speed_setting)
+    LinearLayout danmu_speed_setting;
+    @BindView(R.id.keyWord_group)
+    LinearLayout keyword_group;
+    @BindView(R.id.block_setting_display)
+    TextView block_setting_display;
+    @BindView(R.id.size_setting_display)
+    TextView size_setting_display;
+    @BindView(R.id.speed_setting_display)
+    TextView speed_setting_display;
+    @BindView(R.id.danmu_setting_close)
+    ImageView danmu_setting_close;
+    @BindView(R.id.open_close_danmu)
+    ImageView open_close_danmu;
+    @BindView(R.id.danmu_path)
+    TextView danmu_path;
+    @BindView(R.id.change_danmu_path)
+    Button change_danmu_path;
+    @BindView(R.id.add_block_keyWord_et)
+    EditText add_keyword_et;
+    @BindView(R.id.add_block_keyWord_bt)
+    Button add_keyword_bt;
+    @BindView(R.id.mobile_danmu)
+    ImageView mobile_danmu;
+    @BindView(R.id.botton_danmu)
+    ImageView botton_danmu;
+    @BindView(R.id.top_danmu)
+    ImageView top_danmu;
+    @BindView(R.id.text_size_big)
+    TextView text_big;
+    @BindView(R.id.text_size_middle)
+    TextView text_middle;
+    @BindView(R.id.text_size_small)
+    TextView text_small;
+    @BindView(R.id.text_move_fast)
+    TextView move_fast;
+    @BindView(R.id.text_move_middle)
+    TextView move_middle;
+    @BindView(R.id.text_move_slow)
+    TextView move_slow;
+
+    private String VIDEO_PATH;
     private String DANMU_PATH;
+
     private IDanmakuView mDanmakuView;
-    private BaseDanmakuParser mParser;
     private DanmakuContext mDanmukuContext;
-    InputStream danmu;
-    private TextView danmu_setting;
-    private ImageView danmu_switch;
-    private TextView danmu_switch_text;
-    private RelativeLayout danmu_setting_layout;
-    private LinearLayout danmu_setting_list;
-    private LinearLayout danmu_block_setting;
-    private LinearLayout danmu_size_setting;
-    private LinearLayout danmu_speed_setting;
-    private LinearLayout keyword_group;
-    private ScrollView danmu_setting_scroller;
-    private TextView block_setting_display;
-    private TextView size_setting_display;
-    private TextView speed_setting_display;
-    private ImageView danmu_setting_close;
-    private ImageView open_close_danmu;
-    private TextView danmu_path;
-    private Button change_danmu_path;
-    private EditText add_keyword_et;
-    private Button add_keyword_bt;
-    private ImageView mobile_danmu,botton_danmu,top_danmu;
     boolean first_start_danme = true;       //弹幕文件第一次启动
     boolean danmu_is_open = false;          //弹幕是否开启
     boolean danmu_view_hide = false;        //弹幕是否隐藏
@@ -118,20 +159,18 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
     boolean botton_danmu_hide = false;     //底部弹幕是否隐藏
     boolean top_danmu_hide = false;         //顶部弹幕是否隐藏
     boolean seekbar_is_change = false;
-    private TextView text_big,text_middle,text_small;
-    private TextView move_fast,move_middle,move_slow;
     private List<String> block_keyword_list;
 
     private GestureDetector mDetector;// 手势
     private PlayerGesture mPlayerGesture;
     private boolean player_check;
+    InputStream danmu;
 
     private String name;// 视频名称
     private Uri playUri;// 播放地址
     private boolean isPlayComplete = false;// 是否播放完成
     private boolean isPlayError = false;// 是否播放出错
     private long currentPosition = 0;// 播放位置
-    private int currentVideoLayout = VideoView.VIDEO_LAYOUT_SCALE;
 
     //存储屏蔽列表信息
     ListDataSave blockListSave;
@@ -157,8 +196,6 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
         initPlayerUrl();
-
-        mFindViewById();
 
         initDanmuView();
 
@@ -193,8 +230,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         mHandler.removeCallbacks(hiddenViewThread);
         mHandler.removeCallbacks(updateSeekBarThread);
         mVideoView.stopPlayback();
-        // TODO 可做更多处理 保存播放记录到本地等
-        new DirectoryDao(PlayActivity.this).UpdateFileDanmu(VIDEO_PATH,DANMU_PATH);
+        new DirectoryDao(PlayFragmentActivity.this).UpdateFileDanmu(VIDEO_PATH,DANMU_PATH);
         super.onDestroy();
     }
 
@@ -205,98 +241,12 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         Intent intent = getIntent();
         DANMU_PATH = intent.getStringExtra("DANMU_URL");
         VIDEO_PATH = intent.getStringExtra("PLAY_URL");
-        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
-            Uri uri = intent.getData();
-            if (uri != null) {
-                if (uri.getScheme().contains("content")) {
-                    String[] projection = {MediaStore.Video.Media.DATA,
-                            MediaStore.Video.Media.TITLE};
-                    Cursor videoCursor = new CursorLoader(
-                            mContext, uri, projection, null, null, null).loadInBackground();
-                    int dataColumnIndex = videoCursor.getColumnIndexOrThrow(
-                            MediaStore.Video.Media.DATA);
-                    int titleColumnIndex = videoCursor.getColumnIndexOrThrow(
-                            MediaStore.Video.Media.TITLE);
-                    videoCursor.moveToFirst();
-                    String videoPath = videoCursor.getString(dataColumnIndex);
-                    File videoFile = new File(videoPath);
-                    playUri = Uri.fromFile(videoFile);
-                    name = videoCursor.getString(titleColumnIndex);
-
-                } else {
-                    int index = uri.getPath().lastIndexOf("/");
-                    if (index != -1) {
-                        index++;
-                    }
-                    String fullName = uri.getPath().substring(index);
-                    if (fullName.lastIndexOf(".") != -1) {// 若带后缀，去掉后缀
-                        name = fullName.substring(0, fullName.lastIndexOf("."));
-                    } else {
-                        name = fullName;
-                    }
-
-                    playUri = uri;
-
-                }
-            }
-
+        name = intent.getStringExtra("VIDEO_NAME");
+        if (VIDEO_PATH == null) {
+            Log.e("error","play url is null");
         } else {
-            name = intent.getStringExtra("VIDEO_NAME");
-            String url = intent.getStringExtra("PLAY_URL");
-            if (url == null) {
-                Log.e("error","play url is null");
-            } else {
-                playUri = Uri.parse(url);
-            }
+            playUri = Uri.parse(VIDEO_PATH);
         }
-    }
-
-    private void mFindViewById() {
-        mVideoView = (VideoView) findViewById(R.id.vitamio_videoview);
-        mLoadingView = findViewById(R.id.player_loading_layout);
-        mLoadingInfo = (TextView) findViewById(R.id.loading_text);
-        mVideoCenter = findViewById(R.id.player_center_iv);
-        mVideoBottomBar = findViewById(R.id.player_bottom_layout);
-        mVideoTopBar = findViewById(R.id.player_top_bar);
-        mVideoPlayPause = (ImageView) findViewById(R.id.player_play_iv);
-        mVideoPlayPauseView = (ImageView)findViewById(R.id.player_play);
-        mCurrentTime = (TextView) findViewById(R.id.player_current_time);
-        mTotalTime = (TextView) findViewById(R.id.player_total_time);
-        mSeekBar = (SeekBar) findViewById(R.id.player_seekbar);
-        mOrientationChange = (ImageView) findViewById(R.id.orientation_change);
-        mBack = findViewById(R.id.player_back);
-        mName = (TextView) findViewById(R.id.player_name);
-        mDigitalClock = (DigitalClock) findViewById(R.id.clock);
-        mBatteryView = (BatteryView) findViewById(R.id.battery_view);
-
-        danmu_switch = (ImageView)findViewById(R.id.danmu_switch);
-        danmu_switch_text = (TextView)findViewById(R.id.danmu_switch_text);
-        danmu_setting = (TextView) findViewById(R.id.danmu_setting);
-        danmu_setting_layout = (RelativeLayout)findViewById(R.id.danmu_setting_layout);
-        danmu_setting_list = (LinearLayout)findViewById(R.id.danmu_setting_list);
-        danmu_block_setting = (LinearLayout)findViewById(R.id.danmu_block_setting);
-        danmu_size_setting = (LinearLayout)findViewById(R.id.danmu_size_setting);
-        danmu_speed_setting = (LinearLayout)findViewById(R.id.danmu_speed_setting);
-        danmu_setting_scroller = (ScrollView)findViewById(R.id.danmu_setting_scrollBar);
-        keyword_group = (LinearLayout)findViewById(R.id.keyWord_group);
-        block_setting_display = (TextView)findViewById(R.id.block_setting_display);
-        size_setting_display = (TextView)findViewById(R.id.size_setting_display);
-        speed_setting_display = (TextView)findViewById(R.id.speed_setting_display);
-        danmu_setting_close = (ImageView)findViewById(R.id.danmu_setting_close);
-        open_close_danmu = (ImageView)findViewById(R.id.open_close_danmu);
-        danmu_path = (TextView) findViewById(R.id.danmu_path);
-        change_danmu_path = (Button)findViewById(R.id.change_danmu_path);
-        add_keyword_et = (EditText)findViewById(R.id.add_block_keyWord_et);
-        add_keyword_bt = (Button)findViewById(R.id.add_block_keyWord_bt);
-        mobile_danmu = (ImageView) findViewById(R.id.mobile_danmu);
-        botton_danmu = (ImageView) findViewById(R.id.botton_danmu);
-        top_danmu = (ImageView) findViewById(R.id.top_danmu);
-        text_big = (TextView) findViewById(R.id.text_size_big);
-        text_middle = (TextView) findViewById(R.id.text_size_middle);
-        text_small= (TextView) findViewById(R.id.text_size_small);
-        move_fast = (TextView) findViewById(R.id.text_move_fast);
-        move_middle = (TextView) findViewById(R.id.text_move_middle);
-        move_slow = (TextView) findViewById(R.id.text_move_slow);
     }
 
     /**
@@ -312,8 +262,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 mLoadingView.setVisibility(View.GONE);
                 mHandler.postDelayed(hiddenViewThread, HIDE_INTERVAL);
                 onVideoPlay();
-                if (currentPosition != 0
-                        && currentPosition < mVideoView.getDuration()) {
+                if (currentPosition != 0 && currentPosition < mVideoView.getDuration()) {
                     // 若不调用 VideoView.getDuration() 就进行 seekTo() 那么 seekTo() 无效！
                     // vitamio5.0 的问题？
                     mVideoView.seekTo(currentPosition);
@@ -347,7 +296,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
                 if (percent > 0 && percent < 100) {
-                    mLoadingInfo.setText(percent + "%");
+                    String percentText = percent + "%";
+                    mLoadingInfo.setText(percentText);
                 } else {
                     mLoadingInfo.setText("");
                 }
@@ -359,7 +309,6 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                 onVideoPlay();
             }
         });
-
     }
 
     /**
@@ -367,13 +316,15 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
      */
     private void initDanmuView(){
         // 设置最大显示行数
+        @SuppressLint("UseSparseArrays")
         HashMap<Integer, Integer> maxLinesPair = new HashMap<>();
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
+        @SuppressLint("UseSparseArrays")
         HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<>();
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
-        mDanmakuView = (IDanmakuView) findViewById(R.id.sv_danmaku);
+        mDanmakuView = findViewById(R.id.sv_danmaku);
         mDanmukuContext = DanmakuContext.create();
         mDanmukuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3)
                 .setDuplicateMergingEnabled(false)
@@ -517,13 +468,14 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         top_danmu.setOnClickListener(this);
         text_big.setOnClickListener(this);
         text_middle.setOnClickListener(this);
-        text_middle.setTextColor(Color.parseColor("#28d9f6"));
         text_small.setOnClickListener(this);
         move_fast.setOnClickListener(this);
         move_middle.setOnClickListener(this);
-        move_middle.setTextColor(Color.parseColor("#28d9f6"));
         move_slow.setOnClickListener(this);
-        block_keyword_list = new ArrayList<String>();
+
+        text_middle.setTextColor(Color.parseColor("#28d9f6"));
+        move_middle.setTextColor(Color.parseColor("#28d9f6"));
+        block_keyword_list = new ArrayList<>();
     }
 
     /**
@@ -540,7 +492,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
     private Runnable updateSeekBarThread = new Runnable() {
         @Override
         public void run() {
-            mHandler.postDelayed(updateSeekBarThread, UPDATE_INTERVAL);
+            mHandler.postDelayed(updateSeekBarThread, 1000);
             if (mVideoView.getDuration() != 0) {
                 mSeekBar.setProgress((int) (mVideoView.getCurrentPosition() /
                         (float) mVideoView.getDuration() * 1000));
@@ -664,8 +616,9 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         ILoader loader = DanmakuLoaderFactory.create(DanmakuLoaderFactory.TAG_BILI);
 
         try {
+            assert loader != null;
             loader.load(stream);
-        } catch (IllegalDataException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         BaseDanmakuParser parser = new BiliDanmukuParser();
@@ -811,7 +764,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                         if (first_start_danme){
                             mDanmakuView.release();
                             danmu = new FileInputStream(DANMU_PATH);
-                            mParser = createParser(danmu);
+                            BaseDanmakuParser mParser = createParser(danmu);
                             mDanmakuView.prepare(mParser, mDanmukuContext);
                             first_start_danme = false;
                         }else {
@@ -829,7 +782,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
                     }
                 }
                 else {
-                    Toast.makeText(PlayActivity.this,"请选择弹幕地址",Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlayFragmentActivity.this,"请选择弹幕地址",Toast.LENGTH_LONG).show();
                 }
             }
         }else {
@@ -838,8 +791,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
-    /*
-    *改变弹幕地址
+    /**
+     * 改变弹幕地址
      */
     public void changeDanmuPath(){
         first_start_danme = true;
@@ -850,7 +803,7 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         danmu_switch_text.setText("弹幕关");
         mDanmakuView.hide();
         danmu_is_open = false;
-        Intent intent = new Intent(PlayActivity.this, FolderChooserActivity.class);
+        Intent intent = new Intent(PlayFragmentActivity.this, FolderChooserActivity.class);
         intent.putExtra("isFolderChooser", false);
         intent.putExtra("mimeType", "text/*");
         startActivityForResult(intent,CHANGE_DANMU_PATH);
@@ -869,15 +822,15 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /*
-    *展示屏蔽关键词
+    /**
+     * 展示屏蔽关键词
      */
     public void display_block_keyword(){
         keyword_group.removeAllViews();
         for (int i=0;i<block_keyword_list.size();i++){
             String keyword = block_keyword_list.get(i);
-            final View view = View.inflate(PlayActivity.this, R.layout.keyword_layout, null);
-            TextView tv = (TextView) view.findViewById(R.id.key_word);
+            final View view = View.inflate(PlayFragmentActivity.this, R.layout.keyword_layout, null);
+            TextView tv = view.findViewById(R.id.key_word);
             tv.setText(keyword);
             view.setTag(i);
             //添加屏蔽词
@@ -897,8 +850,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /*
-    *显示设置列表
+    /**
+     * 显示设置列表
      */
     public void displaySetting(int s){
         switch (s){
@@ -955,8 +908,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /*
-    *开启or关闭滚动弹幕
+    /**
+     * 开启or关闭滚动弹幕
      */
     public void mobileDanmuSetting(){
         if (moblie_danmu_hide){
@@ -972,9 +925,9 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /*
-    *开启or关闭底部弹幕
-    */
+    /**
+     * 开启or关闭底部弹幕
+     */
     public void bottonDanmuSetting(){
         if (botton_danmu_hide){
             mDanmukuContext.setFBDanmakuVisibility(true);
@@ -987,8 +940,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /*
-    *开启or关闭顶部弹幕
+    /**
+     * 开启or关闭顶部弹幕
      */
     public void topDanmuSetting(){
         if (top_danmu_hide){
@@ -1002,8 +955,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /*
-    设置弹幕字体大小
+    /**
+     * 设置弹幕字体大小
      */
     public void setDanmuTextSize(float p,int small,int middle,int big){
         mDanmukuContext.setScaleTextSize(p);
@@ -1012,8 +965,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         text_big.setTextColor(big);
     }
 
-    /*
-    设置弹幕速度快慢
+    /**
+     * 设置弹幕速度快慢
      */
     public void setDanmuTextSpeed(float p,int slow,int middle,int fast){
         mDanmukuContext.setScrollSpeedFactor(p);
@@ -1022,8 +975,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
         move_fast.setTextColor(fast);
     }
 
-    /*
-    *获取选取的弹幕文件路径
+    /**
+     * 获取选取的弹幕文件路径
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1046,8 +999,8 @@ PlayActivity extends BaseActivity implements View.OnClickListener{
     private float moveY = 0;
     long currentMS = 0;
 
-    /*
-    *拉动屏幕更新进度，更新弹幕
+    /**
+     * 拉动屏幕更新进度，更新弹幕
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {

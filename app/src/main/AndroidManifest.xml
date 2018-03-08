@@ -3,6 +3,7 @@
     package="com.xyoye.danmuplayer">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,7 @@
         <activity android:name="com.xyoye.danmuplayer.ui.activities.VideoListActivity"/>
         <activity android:name="com.xyoye.danmuplayer.ui.activities.SmbActivity"/>
         <activity
-            android:name="com.xyoye.danmuplayer.ui.activities.PlayActivity"
+            android:name="com.xyoye.danmuplayer.ui.activities.PlayFragmentActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"

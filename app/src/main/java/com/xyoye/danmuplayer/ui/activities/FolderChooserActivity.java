@@ -24,6 +24,7 @@ import com.xyoye.danmuplayer.R;
 import com.xyoye.danmuplayer.ui.adpter.FolderChooserAdapter;
 import com.xyoye.danmuplayer.bean.FolderChooserInfo;
 import com.xyoye.danmuplayer.database.SharedPreferencesHelper;
+import com.xyoye.danmuplayer.utils.GetFileName;
 import com.xyoye.danmuplayer.utils.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -34,6 +35,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 文件选择界面
  */
@@ -41,13 +45,20 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
     private final static int CONNECT_TYPE = 11;
     private final static int SELECT_SMBFILE = 12;
 
+    @BindView(R.id.title_left)
     ImageView titleLeft;        //标题栏左边按钮
-    TextView titleText;         // 标题栏title
+    @BindView(R.id.title_right)
     ImageView titleRight;       //标题栏右边按钮
-    TextView localNetwork;      //局域网按钮
+    @BindView(R.id.title_text)
+    TextView titleText;         // 标题栏title
+    @BindView(R.id.save_path)
     TextView savePath;
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.ll_loading)
     LinearLayout llLoading;
+    @BindView(R.id.local_network)
+    TextView localNetwork;      //局域网按钮
     SharedPreferencesHelper sharedPreferencesHelper;
 
     //是否为文件夹选择器。true文件夹，false文件
@@ -97,6 +108,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_chooser);
+        ButterKnife.bind(this);
         initData();
         initView();
         initListener();
@@ -119,13 +131,6 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initView() {
-        titleLeft = (ImageView) findViewById(R.id.title_left);
-        titleRight = (ImageView) findViewById(R.id.title_right);
-        titleText = (TextView) findViewById(R.id.title_text);
-        savePath = (TextView) findViewById(R.id.save_path);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        llLoading = (LinearLayout) findViewById(R.id.ll_loading);
-        localNetwork = (TextView) this.findViewById(R.id.local_network);
 
         if (isFolderChooser){
             titleText.setText("请选择目录");
@@ -151,7 +156,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         mAdapter = new FolderChooserAdapter(this, mData, new ItemClickCallback() {
             @Override
             public void onClick(View view, int position, FolderChooserInfo info) {
-                onSelection(view, position, info);
+                onSelection(position, info);
             }
         });
         recyclerView.setAdapter(mAdapter);
@@ -202,7 +207,7 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
     /**
      * item点击事件
      */
-    public void onSelection( View view, int position, FolderChooserInfo info) {
+    public void onSelection(int position, FolderChooserInfo info) {
         if (canGoUp && position == 0) {
             if (parentFolder.isFile()) {
                 parentFolder = parentFolder.getParentFile();
@@ -403,9 +408,9 @@ public class FolderChooserActivity extends AppCompatActivity implements View.OnC
         final AlertDialog.Builder builder;
         View dialog = View.inflate(FolderChooserActivity.this,R.layout.dialog_dlna,null);
         builder = new AlertDialog.Builder(FolderChooserActivity.this).setView(dialog);
-        final EditText ip_t = (EditText)dialog.findViewById(R.id.ip_t);
-        final EditText account_t = (EditText)dialog.findViewById(R.id.account_t);
-        final EditText password_t = (EditText)dialog.findViewById(R.id.password_t);
+        final EditText ip_t = dialog.findViewById(R.id.ip_t);
+        final EditText account_t = dialog.findViewById(R.id.account_t);
+        final EditText password_t = dialog.findViewById(R.id.password_t);
         String saveIp = sharedPreferencesHelper.getString("ip","smb://");
         String saveAccount = sharedPreferencesHelper.getString("account","");
         String savePassword = sharedPreferencesHelper.getString("password","");

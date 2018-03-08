@@ -97,7 +97,7 @@ public class VideoListActivity extends AppCompatActivity implements AdapterView.
 
      @Override
      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-         Intent intent = new Intent(VideoListActivity.this, PlayActivity.class);
+         Intent intent = new Intent(VideoListActivity.this, PlayFragmentActivity.class);
          intent.putExtra("PLAY_URL",videoList.get(position).getvideo_path());
          intent.putExtra("VIDEO_NAME", videoList.get(position).getvideo_name());
          intent.putExtra("DANMU_URL", videoList.get(position).getdanmu_path());

@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.xyoye.DanmuPlayer"
         minSdkVersion 19
+        //vitamio在小米手机中targetSdkVersion必须小于23
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -22,10 +23,12 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support:design:27.1.0'
     compile project(':VitamioLibrary5.0')
     compile project(':DanmakuFlameMaster')
     compile files('libs/gson-2.3.1.jar')
     implementation files('libs/jcifs-1.3.19.jar')
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

@@ -19,33 +19,39 @@ import android.widget.Toast;
 
 import com.xyoye.danmuplayer.R;
 import com.xyoye.danmuplayer.bean.Directory;
+import com.xyoye.danmuplayer.database.DirectoryDao;
 import com.xyoye.danmuplayer.database.SharedPreferencesHelper;
 import com.xyoye.danmuplayer.ui.adpter.DirectoryAdapter;
-import com.xyoye.danmuplayer.database.DirectoryDao;
 import com.xyoye.danmuplayer.utils.FindVideoList;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * update by xyy on 2018/3/3.
  */
 
-public class MainActivity extends AppCompatActivity implements
-        SwipeRefreshLayout.OnRefreshListener,
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
         AdapterView.OnItemClickListener,
         AdapterView.OnItemLongClickListener,
         View.OnClickListener {
     final static int ADD_DIRECTORY = 1;
 
+    @BindView(R.id.iv_add_folder)
     ImageView addDirectory;
+    @BindView(R.id.iv_about_display)
     ImageView aboutDisplay;
+    @BindView(R.id.lv_folder)
     ListView lvFolder;
+    @BindView(R.id.swipeLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     DirectoryDao ddao;
     DirectoryAdapter directoryAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
     SharedPreferencesHelper mSharedHelper;
 
     List<Directory> systemDirectoryList;
@@ -63,21 +69,16 @@ public class MainActivity extends AppCompatActivity implements
         public void handleMessage(android.os.Message msg){
             switch (msg.what){
                 case 100:
-                    //更新数据库
                     FlashDatabase();
-                    //显示数据库中video信息
                     ShowDirectory();
-                    //关闭刷新动画
                     swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(MainActivity.this, "更新文件列表成功！！！", Toast.LENGTH_LONG).show();
                     break;
                 case 101:
-                    //关闭刷新动画
                     swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(MainActivity.this, "更新文件列表失败！！！", Toast.LENGTH_LONG).show();
                     break;
                 case 102:
-                    //显示数据库中video信息
                     ShowDirectory();
                     break;
             }
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         initView();
 
@@ -103,11 +105,6 @@ public class MainActivity extends AppCompatActivity implements
      * 初始化组件
      */
     public void initView(){
-        addDirectory = (ImageView)this.findViewById(R.id.iv_add_folder);
-        aboutDisplay = (ImageView)this.findViewById(R.id.iv_about_display);
-        lvFolder = (ListView)findViewById(R.id.lv_folder);
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeLayout);
-
         addDirectory.setImageResource(R.drawable.ic_add_directory);
         aboutDisplay.setImageResource(R.drawable.ic_about_display);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -149,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements
             public void run(){
                 //遍历系统文件,并录入数据库
                 FlashFileList();
-                //确保数据录入数据库后，更新列表
                 searchWaitTime = 0;
                 searchFileSuccess = true;
                 while (!searchFileOver) {
@@ -278,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements
         View about_dialog = View.inflate(MainActivity.this,R.layout.about_more,null);
         AlertDialog.Builder about_builder = new AlertDialog.Builder(MainActivity.this).setView(about_dialog);
 
-        TextView bt_aboutPlayer = (TextView) about_dialog.findViewById(R.id.about_player);
+        TextView bt_aboutPlayer = about_dialog.findViewById(R.id.about_player);
         bt_aboutPlayer.setOnClickListener(new android.view.View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -288,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        TextView bt_aboutUse = (TextView) about_dialog.findViewById(R.id.about_use);
+        TextView bt_aboutUse = about_dialog.findViewById(R.id.about_use);
         bt_aboutUse.setOnClickListener(new android.view.View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -403,9 +399,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        //更新数据库
         FlashDatabase();
-        //显示数据库中video信息
         ShowDirectory();
     }
 }

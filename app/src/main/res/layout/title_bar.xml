@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="70dp"
     android:id="@+id/title_layout"
     android:background="#1E8BF2"
     android:orientation="horizontal">
@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
+        android:paddingTop="26dp"
         android:gravity="center"
         android:visibility="gone"
         android:src="@mipmap/ic_arrow_back_white_24dp"/>
@@ -21,8 +22,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
+        android:paddingTop="26dp"
         android:textSize="18sp"
+        android:gravity="center"
         android:textColor="#FFFFFF"/>
 
     <ImageView
@@ -31,6 +33,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
+        android:paddingTop="26dp"
         android:gravity="center"
         android:visibility="gone"
         android:src="@mipmap/ic_save_white_24dp"/>
