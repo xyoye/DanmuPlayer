@@ -13,10 +13,16 @@ Android端弹幕播放器
 
 - 支持市面上流行的视频格式，包括RMVB
 
-#### Preview:
+### Preview:
 
 ![iamge1](https://github.com/xyoye/ImageRepository/blob/master/image1.png)
 
 ![iamge1](https://github.com/xyoye/ImageRepository/blob/master/image2.png)
 
 ![iamge1](https://github.com/xyoye/ImageRepository/blob/master/image3.png)
+
+### Acknowledgments
+
+DanmakuFlameMaster: https://github.com/Bilibili/DanmakuFlameMaster
+
+Vitamio: https://www.vitamio.org/
