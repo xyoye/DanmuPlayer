@@ -1,6 +1,8 @@
 DanmuPlayer
 ==================
 
+本项目已停止开发，更多弹幕播放器相关开发请移步[弹弹play 概念版](https://github.com/xyoye/DanDanPlayForAndroid)
+
 Android端弹幕播放器
  
 ### Features:
