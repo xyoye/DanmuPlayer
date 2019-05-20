@@ -17,11 +17,11 @@ Android端弹幕播放器
 
 ### Preview:
 
-![iamge1](https://github.com/xyoye/ImageRepository/blob/master/image1.png)
+![iamge1](https://github.com/xyoye/ImageRepository/blob/master/DanmuPlayer/image1.png)
 
-![iamge1](https://github.com/xyoye/ImageRepository/blob/master/image2.png)
+![iamge1](https://github.com/xyoye/ImageRepository/blob/master/DanmuPlayer/image2.png)
 
-![iamge1](https://github.com/xyoye/ImageRepository/blob/master/image3.png)
+![iamge1](https://github.com/xyoye/ImageRepository/blob/master/DanmuPlayer/image3.png)
 
 ### Acknowledgments
 
